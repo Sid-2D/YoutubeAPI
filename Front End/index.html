@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body style="background-color: #333; min-height: 100%; overflow-x: hidden; position: relative;">
+    <div class="" style="text-align: center; overflow-x: hidden;">            
+        <h1 style="color: #fefefe; animation: fadeIn 4s; text-align: center; margin: 10px; font-family: 'Open Sans';">
+            Streamer
+        </h1>
+        <div class="row" style="">
+            <div class="col-md-4 offset-md-4" style="animation: fadeIn 4s">
+                <iframe name="votar" style="display:none;"></iframe>
+                <form class="form-inline" style="align-items: center; display: flex; margin-bottom: 0" method="GET" target="votar">
+                    <div class="input-group">
+                      <input id="searchTerm" type="text" class="form-control" size="300" placeholder="Enter" required>
+                      <div class="input-group-btn">
+                        <button id="Search" type="submit" class="btn btn-info" onclick="getSearchResults()"> Search </button>
+                      </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+		<button id="btn" onclick="playSong()">Play</button>
+		<button id="btn" onclick="stopSong()">Stop</button>
+    </div>
+    <div id="display">
+    </div>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+</html>
