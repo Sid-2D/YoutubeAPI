@@ -1,11 +1,14 @@
 var express = require('express'),
 	app = express(),
 	request = require('request'),
-	childProcess = require('child_process')
-
-var query = 'Capital+Cities'
+	utilities = require('./utilities.js'),
+	bodyParser = require('body-parser')
 
 express.static(__dirname)
+
+app.use(bodyParser.json());
+
+app.use(express.static('Front\ End'))
 
 app.use(express.static('Music'))
 
@@ -13,14 +16,26 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/Front End/index.html')
 })
 
-app.get('/search', (req, res) => {
+app.get('/search/:query', (req, res) => {
+	var query = req.params['query']
 	request(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=${process.env.APIKEY}`, (err, response, body) => {
 		if (err) {
 			console.log('Error making request: ', err)
 		}
 		body = JSON.parse(body)
 		console.log(body)
-		res.send(JSON.stringify(body, null , 2))
+		res.send(JSON.stringify(body, null , 2))	
+	})
+})
+
+app.get('/play/:id', (req, res) => {
+	var id = req.params['id']
+	utilities.download(id, (err, link) => {
+		if (err) {
+			console.log('Download error')
+			return res.send('download error')
+		}
+		res.send(link)
 	})
 })
 
