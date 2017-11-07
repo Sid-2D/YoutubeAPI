@@ -56,7 +56,6 @@ function fillResults() {
 	})	
 }
 
-
 function getSearchResults() {
 	var query = document.getElementById('searchTerm').value.replace(/ /gi, '+')
 	console.log('query = ', query)
@@ -102,11 +101,20 @@ function makeCard(cardTitle, id, cardSnippet) {
 
 	var btnStop = document.createElement('button')
 	btnStop.setAttribute('class', 'btn btn-danger')
+	btnStop.style.marginRight = '10px'
 	btnStop.setAttribute('onclick', `stopSong()`)
 	btnStop.innerText = 'Stop'
 
+	var btnLoad = document.createElement('a')
+	btnLoad.setAttribute('class', 'btn btn-primary')
+	btnLoad.setAttribute('href', `/${id}.mp3`)
+	btnLoad.setAttribute('download', `${cardTitle}`)
+	btnLoad.innerText = 'Load'
+	btnLoad.appendChild(link)
+
 	cardBlock.appendChild(btnPlay)
 	cardBlock.appendChild(btnStop)
+	cardBlock.appendChild(btnLoad)
 	div.appendChild(cardBlock)
 	return div
 }
