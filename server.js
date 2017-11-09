@@ -23,7 +23,7 @@ app.get('/search/:query', (req, res) => {
 			console.log('Error making request: ', err)
 		}
 		body = JSON.parse(body)
-		console.log(body)
+		// console.log(body)
 		res.send(JSON.stringify(body, null , 2))	
 	})
 })
@@ -39,10 +39,10 @@ app.get('/play/:id', (req, res) => {
 	})
 })
 
-app.listen(3000, err => {
+app.listen(process.env.PORT || 3000, err => {
 	if (err) {
 		console.log('Error starting server:', err)
 	} else {
-		console.log('Listening on port 3000...')
+		console.log('Listening on port', process.env.PORT || 3000)
 	}
 })
