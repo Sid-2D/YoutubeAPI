@@ -7,6 +7,10 @@ window.onload = function() {
     searchRequest.addEventListener("error", searchFailed);
 }
 
+function streamSong(id) {
+
+}
+
 function playSong(id) {
 	// Send request to server
 	var request = new XMLHttpRequest()
@@ -17,23 +21,35 @@ function playSong(id) {
 
 	function continuePlaying() {
 		// Create buffer
-		source = audioContext.createBufferSource()
-		// Grab audio
-		var audioSource = new XMLHttpRequest()
-		// Set audio src
-		audioSource.open('GET', `/${request.response}`, true)
-		// Set response type to arraybuffer for decoding
-		audioSource.responseType = 'arraybuffer'
-		audioSource.onload = () => {
-			audioContext.decodeAudioData(audioSource.response, buffer => {
-				source.buffer = buffer
-				// Connect audio to source
-				source.connect(audioContext.destination)
-				// source.loop = true
-				source.start(0)
-			})
-		}
-		audioSource.send()
+		// source = audioContext.createBufferSource()
+		// // Grab audio
+		// var audioSource = new XMLHttpRequest()
+		// // Set audio src
+		// audioSource.open('GET', `/${request.response}`, true)
+		// // Set response type to arraybuffer for decoding
+		// audioSource.responseType = 'arraybuffer'
+		// audioSource.onload = () => {
+		// 	audioContext.decodeAudioData(audioSource.response, buffer => {
+		// 		source.buffer = buffer
+		// 		// Connect audio to source
+		// 		source.connect(audioContext.destination)
+		// 		// source.loop = true
+		// 		source.start(0)
+		// 	})
+		// }
+		// audioSource.send()
+		var audio = new Audio()
+		audio.src = `/${id}.mp3`
+		audio.controls = true
+		audio.autoplay = true
+		audio.setAttribute('style', 'margin-top: 10px')
+		var analyser = audioContext.createAnalyser()
+		var source = audioContext.createAnalyser()
+		source.connect(analyser)
+		analyser.connect(audioContext.destination)
+		var br = document.createElement('br')
+		document.getElementById(id).appendChild(br)
+		document.getElementById(id).appendChild(audio)
 	}
 
 	function errorPlaying() {
@@ -82,6 +98,7 @@ function makeCard(cardTitle, id, cardSnippet) {
 	
 	var cardBlock = document.createElement('div')
 	cardBlock.setAttribute('class', 'card-block')
+	cardBlock.setAttribute('id', id)
 	
 	var title = document.createElement('h4')
 	title.innerText = cardTitle
@@ -105,16 +122,8 @@ function makeCard(cardTitle, id, cardSnippet) {
 	btnStop.setAttribute('onclick', `stopSong()`)
 	btnStop.innerText = 'Stop'
 
-	var btnLoad = document.createElement('a')
-	btnLoad.setAttribute('class', 'btn btn-primary')
-	btnLoad.setAttribute('href', `/${id}.mp3`)
-	btnLoad.setAttribute('download', `${cardTitle}`)
-	btnLoad.innerText = 'Load'
-	btnLoad.appendChild(link)
-
 	cardBlock.appendChild(btnPlay)
 	cardBlock.appendChild(btnStop)
-	cardBlock.appendChild(btnLoad)
 	div.appendChild(cardBlock)
 	return div
 }
