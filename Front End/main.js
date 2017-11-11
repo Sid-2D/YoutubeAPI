@@ -7,10 +7,6 @@ window.onload = function() {
     searchRequest.addEventListener("error", searchFailed);
 }
 
-function streamSong(id) {
-
-}
-
 function playSong(id) {
 	// Send request to server
 	var request = new XMLHttpRequest()
@@ -18,38 +14,26 @@ function playSong(id) {
 	request.addEventListener('error', errorPlaying)
 	request.open('GET', `/play/${id}`, true)
 	request.send()
+	var loader = document.createElement('div')
+	loader.setAttribute('class', 'loader')
+	document.getElementById(id).appendChild(loader)
 
 	function continuePlaying() {
-		// Create buffer
-		// source = audioContext.createBufferSource()
-		// // Grab audio
-		// var audioSource = new XMLHttpRequest()
-		// // Set audio src
-		// audioSource.open('GET', `/${request.response}`, true)
-		// // Set response type to arraybuffer for decoding
-		// audioSource.responseType = 'arraybuffer'
-		// audioSource.onload = () => {
-		// 	audioContext.decodeAudioData(audioSource.response, buffer => {
-		// 		source.buffer = buffer
-		// 		// Connect audio to source
-		// 		source.connect(audioContext.destination)
-		// 		// source.loop = true
-		// 		source.start(0)
-		// 	})
-		// }
-		// audioSource.send()
 		var audio = new Audio()
 		audio.src = `/${id}.mp3`
 		audio.controls = true
 		audio.autoplay = true
-		audio.setAttribute('style', 'margin-top: 10px')
+		audio.setAttribute('style', 'animation: fadeIn 1s')
 		var analyser = audioContext.createAnalyser()
 		var source = audioContext.createAnalyser()
 		source.connect(analyser)
 		analyser.connect(audioContext.destination)
-		var br = document.createElement('br')
-		document.getElementById(id).appendChild(br)
-		document.getElementById(id).appendChild(audio)
+		// Remove button and add audio source
+		var card = document.getElementById(id)
+		var children = document.getElementById(id).childNodes;
+		card.removeChild(children[children.length - 1])
+		card.removeChild(children[children.length - 1])
+		card.appendChild(audio)
 	}
 
 	function errorPlaying() {
@@ -114,16 +98,9 @@ function makeCard(cardTitle, id, cardSnippet) {
 	btnPlay.setAttribute('class', 'btn btn-success')
 	btnPlay.style.marginRight = '10px'
 	btnPlay.setAttribute('onclick', `playSong('${id}')`)
-	btnPlay.innerText = 'Play'
-
-	var btnStop = document.createElement('button')
-	btnStop.setAttribute('class', 'btn btn-danger')
-	btnStop.style.marginRight = '10px'
-	btnStop.setAttribute('onclick', `stopSong()`)
-	btnStop.innerText = 'Stop'
+	btnPlay.innerText = 'Listen'
 
 	cardBlock.appendChild(btnPlay)
-	cardBlock.appendChild(btnStop)
 	div.appendChild(cardBlock)
 	return div
 }
