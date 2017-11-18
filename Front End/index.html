@@ -34,36 +34,32 @@
         <div class="bd-example bd-example-tabs" role="tabpanel">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-expanded="true" style="color: #999">Search</a>
+              <a class="nav-link active" id="searchResults" data-toggle="tab" href="#search" role="tab" aria-controls="search" aria-expanded="true" style="color: #999">Search</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="false" style="color: #999">Related</a>
+              <a class="nav-link" id="relatedResults" data-toggle="tab" href="#related" role="tab" aria-controls="related" aria-expanded="false" style="color: #999">Related</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color: #999">
+            <li class="nav-item">
+              <a class="nav-link" id="playerResults" data-toggle="tab" href="#player" role="button" aria-controls="player" aria-expanded="false" style="color: #999">
                 Player
               </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" id="dropdown1-tab" href="#dropdown1" role="tab" data-toggle="tab" aria-controls="dropdown1">@fat</a>
-                <a class="dropdown-item" id="dropdown2-tab" href="#dropdown2" role="tab" data-toggle="tab" aria-controls="dropdown2">@mdo</a>
-              </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="profile-tab1" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="false" style="color: #999">API</a>
+              <a class="nav-link" id="apiTab" data-toggle="tab" href="#api" role="tab" aria-controls="api" aria-expanded="false" style="color: #999">API</a>
             </li>
           </ul>
           <div class="tab-content" id="myTabContent" style="color: #bbb">
-            <div role="tabpanel" class="tab-pane fade active show" id="home" aria-labelledby="home-tab" aria-expanded="true">
-              <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse.</p>
+            <div role="tabpanel" class="tab-pane fade active show" id="search" aria-labelledby="searchResults" aria-expanded="true">
+              <p>Search results come here.</p>
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab" aria-expanded="false">
-              <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit.</p>
+            <div class="tab-pane fade" id="related" role="tabpanel" aria-labelledby="related-tab" aria-expanded="false">
+              <p>Related results come here.</p>
             </div>
-            <div class="tab-pane fade" id="dropdown1" role="tabpanel" aria-labelledby="dropdown1-tab">
-              <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
+            <div class="tab-pane fade" id="player" role="tabpanel" aria-labelledby="player-tab" aria-expanded="false">
+              <p>Player comes here.</p>
             </div>
-            <div class="tab-pane fade" id="dropdown2" role="tabpanel" aria-labelledby="dropdown2-tab">
-              <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester.</p>
+            <div class="tab-pane fade" id="api" role="tabpanel" aria-labelledby="player-tab" aria-expanded="false">
+              <p>Api comes here.</p>
             </div>
           </div>
         </div>

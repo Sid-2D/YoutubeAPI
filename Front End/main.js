@@ -1,4 +1,4 @@
-var audioContext, searchRequest, display
+var audioContext, searchRequest, searchDisplay
 
 window.onload = function() {
 	audioContext = new (window.AudioContext || window.webkitAudioContext)()
@@ -34,11 +34,23 @@ function playSong(id) {
 		card.removeChild(children[children.length - 1])
 		card.removeChild(children[children.length - 1])
 		card.appendChild(audio)
+		// Add card to player
+		var player = document.getElementById('player')
+		player.style.color = "#000"
+		var div = document.createElement('div')
+		div.setAttribute('class', 'card')
+		div.setAttribute('style', 'margin: 10px; animation: fadeIn 2s;')
+
+		var songCard = document.getElementById(id).cloneNode(true)
+		div.appendChild(songCard)
+
+		player.appendChild(div)
 	}
 
 	function errorPlaying() {
 		console.log('Error playing:', request.response)
 	}
+
 }
 
 function stopSong() {
@@ -46,12 +58,13 @@ function stopSong() {
 }
 
 function fillResults() {
-	var display = document.getElementById('display')
-	display.innerHTML = ''
+	var searchDisplay = document.getElementById('search')
+	searchDisplay.innerHTML = ''
+	searchDisplay.style.color = '#000'
 	var response = JSON.parse(searchRequest.response)
 	response.items.forEach(item => {
 		if (item.id.kind == 'youtube#video') {
-			display.appendChild(makeCard(item.snippet.title, item.id.videoId, item.snippet.description))
+			searchDisplay.appendChild(makeCard(item.snippet.title, item.id.videoId, item.snippet.description))
 		}
 	})	
 }
