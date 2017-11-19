@@ -41,3 +41,21 @@
         transform: rotate(360deg); 
     }
 }
+
+@keyframes colorChange {
+    /*0% {
+        background: rgb(153, 153, 153);
+    }
+    25% {
+        background: rgb(100, 100, 100);
+    }*/
+    50% {
+        background: rgb(135, 135, 135);
+    }
+    /*75% {
+        background: rgb(100, 100, 100);
+    }
+    100% {
+        background: rgb(153, 153, 153);
+    }*/
+}
