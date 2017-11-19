@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 app.get('/search/:query', (req, res) => {
 	var query = req.params['query']
-	request(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=${process.env.APIKEY}`, (err, response, body) => {
+	request(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=10&q=${query}&key=${process.env.APIKEY}`, (err, response, body) => {
 		if (err) {
 			console.log('Error making request: ', err)
 		}
@@ -36,6 +36,19 @@ app.get('/play/:id', (req, res) => {
 			return res.send('download error')
 		}
 		res.send(link)
+	})
+})
+
+app.get('/related/:id/:page', (req, res) => {
+	var id = req.params['id']
+	var page = parseInt(req.params['page'])
+	request(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&relatedToVideoId=${id}&type=video&key=${process.env.APIKEY}`, (err, response, body) => {
+		if (err) {
+			console.log('Error making related request: ', err)
+		}
+		body = JSON.parse(body)
+		body.items = body.items.slice(page * 10, (page + 1) * 10)
+		res.send(JSON.stringify(body, null , 2))	
 	})
 })
 
