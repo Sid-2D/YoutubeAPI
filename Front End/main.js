@@ -41,7 +41,7 @@ function playSong(id) {
 		// Create card div
 		var div = document.createElement('div')
 		div.setAttribute('class', 'card')
-		div.setAttribute('style', 'margin: 10px; animation: fadeIn 2s;')
+		div.setAttribute('style', 'margin: 10px; animation: fadeIn 1s;')
 		// Insert card
 		var songCard = document.getElementById(id).cloneNode(true)
 		songCard.appendChild(audio)
@@ -54,6 +54,9 @@ function playSong(id) {
 		currentSong = audio
 		songCard.removeChild(songCard.childNodes[songCard.childNodes.length - 2])
 		player.insertBefore(div, player.childNodes[0])
+		if (player.childNodes.length == 10) {
+			player.removeChild(player.childNodes[9])
+		}
 		document.getElementById('playerResults').style.animation = 'colorChange 1s'
 		setTimeout(() => {
 			document.getElementById('playerResults').style.animation = null
@@ -84,6 +87,21 @@ function fillRelated(id) {
 		response.items.forEach(item => {
 			relatedDisplay.appendChild(makeCard(item.snippet.title, item.id.videoId, item.snippet.description))
 		})
+		// Add more button
+		var btn = document.createElement('button')
+		btn.setAttribute('class', 'btn btn-default')
+		btn.style.margin = '2px'
+		btn.style.width = '100%'
+		btn.innerHTML = 'More'
+		var pageNo = 1
+		btn.setAttribute('onclick', 'getMoreRelated()')
+		relatedDisplay.appendChild(btn)
+
+		function getMoreRelated() {
+			// Request for number
+			pageNo++;
+			console.log(pageNo)
+		}
 	}
 
 	function relatedError() {
@@ -135,7 +153,7 @@ function searchFailed() {
 function makeCard(cardTitle, id, cardSnippet) {
 	var div = document.createElement('div')
 	div.setAttribute('class', 'card')
-	div.setAttribute('style', 'margin: 10px; animation: fadeIn 2s;')
+	div.setAttribute('style', 'margin: 10px; animation: fadeIn 1s;')
 	
 	var cardBlock = document.createElement('div')
 	cardBlock.setAttribute('class', 'card-block')
@@ -145,11 +163,6 @@ function makeCard(cardTitle, id, cardSnippet) {
 	title.innerText = cardTitle
 	title.setAttribute('class', 'card-title')
 	cardBlock.appendChild(title)
-	
-	// var snippet = document.createElement('p')
-	// snippet.setAttribute('class', 'card-text')
-	// snippet.innerText = cardSnippet
-	// cardBlock.appendChild(snippet)
 
 	var btnPlay = document.createElement('button')
 	btnPlay.setAttribute('class', 'btn btn-success')
