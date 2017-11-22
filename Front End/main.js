@@ -46,24 +46,33 @@ function playSong(id) {
 		var songCard = document.getElementById(id).cloneNode(true)
 		songCard.appendChild(audio)
 		div.appendChild(songCard)
-		// Play song
-		audio.play()
 		if (currentSong) {
 			currentSong.pause()
 		}
 		currentSong = audio
+		// Add onplay event and play
+		audio.play()
+		audio.onplay = () => {
+			if (currentSong != audio) {
+				currentSong.pause()
+				currentSong = audio
+				fillRelated(id);
+			}
+		}
+		// Only keep limited number of active songs on player
 		songCard.removeChild(songCard.childNodes[songCard.childNodes.length - 2])
 		player.insertBefore(div, player.childNodes[0])
 		if (player.childNodes.length == 10) {
 			player.removeChild(player.childNodes[9])
 		}
+		// Play a little blink effect on tab
 		document.getElementById('playerResults').style.animation = 'colorChange 1s'
+		// Reset animation
 		setTimeout(() => {
 			document.getElementById('playerResults').style.animation = null
 			document.getElementById('playerResults').style.animation = 'none'
 		}, 1000)
-		// Fill related
-		fillRelated(id) 
+		fillRelated(id);
 	}
 
 	function errorPlaying() {
@@ -88,20 +97,20 @@ function fillRelated(id) {
 			relatedDisplay.appendChild(makeCard(item.snippet.title, item.id.videoId, item.snippet.description))
 		})
 		// Add more button
-		var btn = document.createElement('button')
-		btn.setAttribute('class', 'btn btn-default')
-		btn.style.margin = '2px'
-		btn.style.width = '100%'
-		btn.innerHTML = 'More'
-		var pageNo = 1
-		btn.setAttribute('onclick', 'getMoreRelated()')
-		relatedDisplay.appendChild(btn)
+		// var btn = document.createElement('button')
+		// btn.setAttribute('class', 'btn btn-default')
+		// btn.style.margin = '2px'
+		// btn.style.width = '100%'
+		// btn.innerHTML = 'More'
+		// var pageNo = 1
+		// btn.setAttribute('onclick', 'getMoreRelated()')
+		// relatedDisplay.appendChild(btn)
 
-		function getMoreRelated() {
-			// Request for number
-			pageNo++;
-			console.log(pageNo)
-		}
+		// function getMoreRelated() {
+		// 	// Request for number
+		// 	pageNo++;
+		// 	console.log(pageNo)
+		// }
 	}
 
 	function relatedError() {
