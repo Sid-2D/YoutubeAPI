@@ -1,7 +1,7 @@
 var express = require('express'),
 	app = express(),
 	request = require('request'),
-	utilities = require('./utilities.js'),
+	utilities = require('./utilities.js'),	// Make this additional file containing your own functions 
 	bodyParser = require('body-parser')
 
 express.static(__dirname)
@@ -30,10 +30,11 @@ app.get('/search/:query', (req, res) => {
 
 app.get('/play/:id', (req, res) => {
 	var id = req.params['id']
+	// Add your own downloader library if you wish to download, not recommended
 	utilities.download(id, (err, link) => {
 		if (err) {
 			console.log('Download error')
-			return res.send('download error')
+			return res.send('Download error')
 		}
 		res.send(link)
 	})

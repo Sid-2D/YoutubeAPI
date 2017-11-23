@@ -24,4 +24,10 @@ RUN npm install
 
 RUN sudo apt-get install libav-tools -yq
 
+RUN sudo locale-gen en_US.UTF-8
+
+RUN sudo update-locale LANG=en_US.UTF-8
+
+ENV LC_ALL="en_US.UTF-8"
+
 CMD node server.js
