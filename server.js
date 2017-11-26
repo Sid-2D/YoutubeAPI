@@ -30,7 +30,9 @@ app.get('/search/:query', (req, res) => {
 
 app.get('/play/:id', (req, res) => {
 	var id = req.params['id']
-	// Add your own downloader library if you wish to download, not recommended
+	// Embed the youtube player and watch the video here or purchase a legal
+	// copy of music by calling appropriate APIs, this feature will not be included
+	// in this project.
 	utilities.download(id, (err, link) => {
 		if (err) {
 			console.log('Download error')
