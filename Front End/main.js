@@ -48,6 +48,7 @@ function playSong(id) {
 		div.appendChild(songCard)
 		if (currentSong) {
 			currentSong.pause()
+			currentSong.currentTime = 0
 		}
 		currentSong = audio
 		// Add onplay event and play
@@ -55,6 +56,7 @@ function playSong(id) {
 		audio.onplay = () => {
 			if (currentSong != audio) {
 				currentSong.pause()
+				currentSong.currentTime = 0
 				currentSong = audio
 				fillRelated(id);
 			}
