@@ -45,6 +45,15 @@ function playSong(id) {
 		// Insert card
 		var songCard = document.getElementById(id).cloneNode(true)
 		songCard.appendChild(audio)
+		// Add Panel here
+		var btn = document.createElement('button')
+		btn.innerHTML = 'Panel'
+		btn.setAttribute('class', 'btn btn-sm btn-primary')
+		btn.setAttribute('data-toggle', 'collapse')
+		btn.setAttribute('data-target', `#panel${id}`)
+		songCard.appendChild(document.createElement('br'))
+		songCard.appendChild(btn)
+		songCard.appendChild(makeAudioPanel(id))
 		div.appendChild(songCard)
 		if (currentSong) {
 			currentSong.pause()
@@ -62,7 +71,7 @@ function playSong(id) {
 			}
 		}
 		// Only keep limited number of active songs on player
-		songCard.removeChild(songCard.childNodes[songCard.childNodes.length - 2])
+		songCard.removeChild(songCard.childNodes[songCard.childNodes.length - 5])
 		player.insertBefore(div, player.childNodes[0])
 		if (player.childNodes.length == 10) {
 			player.removeChild(player.childNodes[9])
@@ -184,5 +193,13 @@ function makeCard(cardTitle, id, cardSnippet) {
 
 	cardBlock.appendChild(btnPlay)
 	div.appendChild(cardBlock)
+	return div
+}
+
+function makeAudioPanel(id) {
+	var div = document.createElement('div')
+	div.setAttribute('id', `panel${id}`)
+	div.setAttribute('class', `collapse`)
+	div.innerHTML = 'Lorem ipsum dolor text....'
 	return div
 }
