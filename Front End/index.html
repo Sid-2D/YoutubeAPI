@@ -5,6 +5,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#282f31">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="nouislider.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="/main.css">
     <link rel="shortcut icon" href="/earbuds-icon.png?v=3" />
@@ -45,7 +46,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="apiTab" data-toggle="tab" href="#api" role="tab" aria-controls="api" aria-expanded="false" style="color: #999">API</a>
+              <a class="nav-link" id="apiTab" data-toggle="tab" href="#api" role="tab" aria-controls="api" aria-expanded="false" style="color: #999">Local</a>
             </li>
           </ul>
           <div class="tab-content" id="myTabContent" style="color: #bbb">
@@ -56,9 +57,13 @@
               <p>Related results come here.</p>
             </div>
             <div class="tab-pane fade" id="player" role="tabpanel" aria-labelledby="player-tab" aria-expanded="false">
+              <div class="tab-pane fade active show" id="player" role="tabpanel" aria-labelledby="player-tab" aria-expanded="true" style="color: rgb(0, 0, 0);">
+              </div>
             </div>
             <div class="tab-pane fade" id="api" role="tabpanel" aria-labelledby="player-tab" aria-expanded="false">
-              <p>Api comes here.</p>
+              <p>Query file system here.</p>
+              <div id="tempLocal"></div>
+              <button class="btn" onclick="getLocal()">Get</button>
             </div>
           </div>
         </div>
@@ -66,6 +71,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="nouislider.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
 </body>
 </html>
