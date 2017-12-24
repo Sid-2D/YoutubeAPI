@@ -1,8 +1,7 @@
-var audioContext, searchRequest, searchDisplay, currentSong, gainNode
+var audioContext, searchRequest, searchDisplay, currentSong, gainNode, loopTimeOut
 
 window.onload = function() {
 	audioContext = new (window.AudioContext || window.webkitAudioContext)()
-	gainNode = audioContext.createGain()
 	searchRequest = new XMLHttpRequest()
 	searchRequest.addEventListener("load", searchComplete);
     searchRequest.addEventListener("error", searchFailed);
@@ -27,12 +26,15 @@ function playSong(id) {
 		audio.controls = true
 		// audio.autoplay = true
 		audio.setAttribute('style', 'animation: fadeIn 1s')
+		audio.setAttribute('preload', 'none')
 		var analyser = audioContext.createAnalyser()
-		var source = audioContext.createAnalyser()
-		source.connect(analyser)
+		gainNode = audioContext.createGain()
+		var source = audioContext.createMediaElementSource(audio)
+		// source.connect(analyser)
 		source.connect(gainNode)
+		// gainNode.connect(analyser)
 		gainNode.connect(audioContext.destination)
-		analyser.connect(audioContext.destination)
+		// analyser.connect(audioContext.destination)
 		// Remove button and add audio source
 		var card = document.getElementById(id)
 		var children = document.getElementById(id).childNodes;
@@ -64,21 +66,27 @@ function playSong(id) {
 			currentSong.currentTime = 0
 		}
 		currentSong = audio
-		audio.volume = 0.1
+		// gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+		gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime)
 		audio.play()
-
 		audio.addEventListener('canplaythrough', function() { 
 			songCard.appendChild(makeAudioPanel(id, audio))
+			gainNode.gain.exponentialRampToValueAtTime(1, audioContext.currentTime + 1.5)
 		}, false);
 
 		// Add onplay event and play
 		audio.onplay = () => {
+			gainNode.gain.exponentialRampToValueAtTime(1, audioContext.currentTime + 1.5)
 			if (currentSong && currentSong != audio) {
 				currentSong.pause()
 				currentSong.currentTime = 0
 				currentSong = audio
 				fillRelated(id)
 			}
+		}
+		audio.onpause = () => {
+			gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5)
+			console.log('pause')
 		}
 		songCard.removeChild(songCard.childNodes[songCard.childNodes.length - 4])
 		// Only keep limited number of active songs on player
@@ -299,7 +307,7 @@ function makeAudioPanel(id, audio) {
 	let loopBtn = document.createElement('button')
 	loopBtn.innerHTML = 'Loop'
 	loopBtn.setAttribute('class', 'btn btn-sm btn-success')
-	loopBtn.onclick = loopFunction.bind(null, audio)
+	loopBtn.onclick = loopRangePlay.bind(null, audio, range, loopBtn)
 	rangeSlider.appendChild(loopBtn)
 
 	let saveBtn = document.createElement('button')
@@ -335,24 +343,48 @@ function makeAudioPanel(id, audio) {
 	
 }
 
-function loopFunction(audio) {
-	console.log(audio.duration)
-	gainNode.gain.setValueAtTime(0, audioContext.currentTime)
-	// gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 10)
-	gainNode.gain.value = 0.01
+function loopRangePlay(audio, range, loopBtn) {
+	// console.log(audio.duration)
+	// gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+	gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5)
+	// setTimeout(() => currentSong.pause(), 1500)
+	if (currentSong && currentSong != audio) {
+		window.clearTimeout(loopTimeOut);
+		currentSong = audio
+	}
+	// Change loop button style and fn
+	loopBtn.onclick = loopRangeStop.bind(null, audio, range, loopBtn)
+	loopBtn.innerHTML = 'Stop'
+	loopBtn.setAttribute('class', 'btn btn-sm btn-danger')
+
+	setTimeout(() => {
+		// currentSong.pause()
+		// currentSong.play()
+		startLoop()
+	}, 1500)
+	// Start a range
+	function startLoop() {
+		currentSong.currentTime = range[0]
+		console.log('Loop')
+		loopTimeOut = window.setTimeout(transition, (range[1] - range[0] - 2) * 1000)
+		gainNode.gain.exponentialRampToValueAtTime(1, audioContext.currentTime + 1.5)
+	}
+	// Range complete, go back to start
+	function transition() {
+		console.log('Transition')
+		gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5)
+		loopTimeOut = window.setTimeout(startLoop, 1500)
+	}
+}
+
+function loopRangeStop(audio, range, loopBtn) {
+	// Change style and fn again
+	loopBtn.onclick = loopRangePlay.bind(null, audio, range, loopBtn)
+	loopBtn.innerHTML = 'Loop'
+	loopBtn.setAttribute('class', 'btn btn-sm btn-success')
+	window.clearTimeout(loopTimeOut)
 }
 
 function getLocal() {
-	var request = new XMLHttpRequest()
-	let div = document.getElementById('tempLocal')
-	request.addEventListener('load', continuePlaying)
-	request.addEventListener('error', errorPlaying)
-	request.open('GET', `file:///storage/emulated/0/Download/`, true)
-	request.send()
-	function continuePlaying() {
-		div.innerHTML = request.response
-	}
-	function errorPlaying() {
-		div.innerHTML = request.response
-	}
+	
 }
